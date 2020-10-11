@@ -1,10 +1,13 @@
 import Redis, { KeyType } from 'ioredis';
+import Lock from 'redlock';
 import { RedisCache } from 'apollo-server-cache-redis';
 
 import { RedisConfig } from './constants';
 import logger from './Logger';
 
 export const redisClient = new Redis(RedisConfig);
+
+export const lock = new Lock([redisClient]);
 
 redisClient.on('error', logger.error);
 

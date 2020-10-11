@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    "incremental": true,
+    "target": "ESNEXT",
+    "module": "commonjs",
+    "lib": ["esnext", "dom"],
+    "outDir": "dist",
+    "rootDir": "src",
+    "tsBuildInfoFile": "./dist/build.tsbuildinfo",
+    "removeComments": true,
+    "importHelpers": true,
+
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
+    "moduleResolution": "node",
+    "baseUrl": "src",
+    "paths": {
+      "@shared/*": ["shared/*"],
+      "@services/*": ["services/*"],
+      "@models/*": ["database/models/*"],
+      "@models": ["database/models"],
+      "@controllers/*": ["controllers/*"],
+      "@/*": ["./*"]
+    },
+    "types": ["node", "jest"],
+    "esModuleInterop": true,
+    "preserveSymlinks": true,
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "exclude": ["node_modules", "dist", "scripts", "test"]
+}

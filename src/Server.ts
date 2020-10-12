@@ -1,5 +1,5 @@
 import express from 'express';
-import jwt from 'express-jwt';
+// import jwt from 'express-jwt';
 import rateLimit from 'express-rate-limit';
 import RedisStore from 'rate-limit-redis';
 import morgan from 'morgan';
@@ -8,7 +8,7 @@ import helmet from 'helmet';
 import { ApolloServer } from 'apollo-server-express';
 
 import { redisClient, redisCache } from '@shared/redis';
-import { JWTConfig } from '@shared/constants';
+// import { JWTConfig } from '@shared/constants';
 import router from './routes';
 import schema from './schema';
 import dataSources from './DataSources';
@@ -48,7 +48,7 @@ const server = new ApolloServer({
   },
 });
 
-app.use('/graphql', jwt(JWTConfig).unless({ method: 'GET' }));
+// app.use('/graphql', jwt(JWTConfig).unless({ method: 'GET' }));
 
 server.applyMiddleware({ app });
 

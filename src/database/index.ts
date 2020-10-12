@@ -1,7 +1,9 @@
-import { connect } from 'mongoose';
+import { connect, set } from 'mongoose';
 
 import logger from '@shared/Logger';
 import { MongoConfig } from '@shared/constants';
+
+set('useFindAndModify', false);
 
 connect(MongoConfig.url, {
   useNewUrlParser: true,

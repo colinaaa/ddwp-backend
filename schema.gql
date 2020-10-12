@@ -3,9 +3,68 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+"""狼人杀阵容组合"""
+enum LineUp {
+  STANDARD_NINE
+}
+
+type Mutation {
+  """创建房间"""
+  createRoom(lineup: Float!): Room!
+
+  """加入房间"""
+  joinRoom(
+    """房间号"""
+    roomNumber: Float!
+  ): Room!
+}
+
+type Player {
+  """位置"""
+  position: Float!
+
+  """角色"""
+  role: Role!
+}
+
 type Query {
+  allRooms: [Room]!
   allUsers: [User!]
+
+  """查询房间"""
+  roomByNumber(number: Float!): Room!
   userByPhone(phone: String!): User!
+}
+
+"""狼人杀角色"""
+enum Role {
+  Hunter
+  Idiot
+  Prophet
+  Villager
+  Werewolf
+  Witch
+}
+
+""" 游戏房间"""
+type Room {
+  """是否开始"""
+  isBegin: Boolean
+
+  """阵容"""
+  lineup: LineUp!
+
+  """密码"""
+  password: String!
+
+  """玩家信息"""
+  players: [Player]!
+
+  """玩家人数"""
+  playersNumber: Float!
+
+  """房间号"""
+  roomNumber: Float!
 }
 
 type User {

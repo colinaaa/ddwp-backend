@@ -53,6 +53,47 @@ class RoomResolver {
 
     return room;
   }
+
+  @Mutation(() => Room, { description: '开始游戏' })
+  async beginGame(@Arg('roomNumber', { description: '房间号' }) roomNumber: number): Promise<Room> {
+    const room = await this.service.beginGame(roomNumber);
+
+    if (!room) {
+      logger.error('开始游戏失败 %s', roomNumber);
+      throw new Error('开始游戏失败');
+    }
+
+    return room;
+  }
+
+  @Mutation(() => Room, { description: '选择位置' })
+  async selectPosition(
+    @Arg('roomNumber', { description: '房间号' }) roomNumber: number,
+    @Arg('position', { description: '位置' }) position: number
+  ): Promise<Room> {
+    const room = await this.roomByNumber(roomNumber);
+
+    if (position > room.playersNumber) {
+      logger.error('位置已经有人了 %s: %s', roomNumber, position);
+      throw new Error('位置已经有人了');
+    }
+
+    const set = new Set<number>(room.players.map((i) => i.position));
+
+    if (set.has(position)) {
+      logger.error('位置已经有人了 %s: %s', roomNumber, position);
+      throw new Error('位置已经有人了');
+    }
+
+    const res = await this.service.selectPosition(roomNumber, position);
+
+    if (!res) {
+      logger.error('选择位置失败 %s: %s', roomNumber, position);
+      throw new Error('选择失败');
+    }
+
+    return res;
+  }
 }
 
 export default RoomResolver;

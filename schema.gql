@@ -9,11 +9,26 @@ enum LineUp {
 }
 
 type Mutation {
+  """开始游戏"""
+  beginGame(
+    """房间号"""
+    roomNumber: Float!
+  ): Room!
+
   """创建房间"""
   createRoom(lineup: Float!): Room!
 
   """加入房间"""
   joinRoom(
+    """房间号"""
+    roomNumber: Float!
+  ): Room!
+
+  """选择位置"""
+  selectPosition(
+    """位置"""
+    position: Float!
+
     """房间号"""
     roomNumber: Float!
   ): Room!
@@ -51,6 +66,9 @@ type Room {
   """是否开始"""
   isBegin: Boolean
 
+  """是否结束"""
+  isEnd: Boolean
+
   """阵容"""
   lineup: LineUp!
 
@@ -58,7 +76,7 @@ type Room {
   password: String!
 
   """玩家信息"""
-  players: [Player]!
+  players: [Player!]
 
   """玩家人数"""
   playersNumber: Float!

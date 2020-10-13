@@ -16,6 +16,10 @@ export interface IRoomService {
   createRoom(lineup: LineUp): Promise<Room>;
 
   joinRoom(roomNumber: number): Promise<Room | null>;
+
+  beginGame(roomNumber: number): Promise<Room | null>;
+
+  selectPosition(roomNumber: number, position: number): Promise<Room | null>;
 }
 
 export default IRoomService;

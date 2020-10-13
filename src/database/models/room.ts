@@ -1,7 +1,7 @@
 import { ObjectType, Field } from 'type-graphql';
 import { prop, getModelForClass } from '@typegoose/typegoose';
 
-import LineUp from './lineup';
+import LineUp, { mapLineupToPlayerNumbers } from './lineup';
 import Player from './player';
 
 @ObjectType({ description: ' 游戏房间' })
@@ -22,13 +22,21 @@ export class Room {
   @prop({ required: true })
   lineup!: LineUp;
 
-  @Field(() => [Player], { description: '玩家信息', nullable: 'items' })
-  @prop({ required: false })
-  players!: Array<Player | null>;
+  @Field(() => [Player], { description: '玩家信息', nullable: true })
+  @prop({ required: false, default: [], type: Player })
+  players!: Array<Player>;
 
   @Field({ description: '是否开始', defaultValue: true })
-  @prop({ required: false })
+  @prop({ required: false, default: false })
   isBegin?: boolean;
+
+  @Field({ description: '是否结束', defaultValue: false })
+  @prop({ required: false, default: false })
+  isEnd?: boolean;
+
+  public canBegin(): boolean {
+    return !this.isBegin && this.playersNumber === mapLineupToPlayerNumbers(this.lineup);
+  }
 }
 
 export const RoomModel = getModelForClass(Room);

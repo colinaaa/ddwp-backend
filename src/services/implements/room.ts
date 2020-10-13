@@ -26,15 +26,41 @@ class RoomService implements IRoomService {
       lineup,
       roomNumber: num,
       playersNumber: 1,
-      isBegin: false,
       players: [],
     });
   }
 
   async joinRoom(roomNumber: number): Promise<Room | null> {
+    // TODO: 房间已满
+    return this.model.findOneAndUpdate(
+      {
+        roomNumber,
+      },
+      { $inc: { playersNumber: 1 } },
+      { new: true }
+    );
+  }
+
+  async beginGame(roomNumber: number): Promise<Room | null> {
+    const room = await this.findByNumber(roomNumber);
+
+    if (!room) {
+      return null;
+    }
+
+    if (room.canBegin()) {
+      const { _id: id } = room;
+      return this.model.findByIdAndUpdate(id, { $set: { isBegin: true } }, { new: true });
+    }
+
+    throw new Error('还不能开始游戏');
+  }
+
+  async selectPosition(roomNumber: number, position: number): Promise<Room | null> {
     return this.model.findOneAndUpdate(
       { roomNumber },
-      { $inc: { playersNumber: 1 }, $push: { players: { position: -1 } } }
+      { $push: { players: { position } } },
+      { new: true }
     );
   }
 }

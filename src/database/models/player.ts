@@ -6,7 +6,7 @@ import Role from './role';
 @ObjectType()
 export class Player {
   @Field(() => Role, { description: '角色' })
-  @prop({ required: false })
+  @prop({ required: false, enum: Role })
   role?: Role;
 
   @Field({ description: '位置' })

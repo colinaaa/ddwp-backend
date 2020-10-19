@@ -3,7 +3,6 @@ import { Inject, Service } from 'typedi';
 
 import RoomService, { RoomServiceName } from '@services/room';
 import { Room } from '@models/room';
-import { Error } from 'mongoose';
 import LineUp from '@models/lineup';
 import logger from '@shared/Logger';
 
@@ -13,7 +12,7 @@ class RoomResolver {
   @Inject(RoomServiceName)
   private readonly service!: RoomService;
 
-  @Query(() => [Room], { nullable: 'items' })
+  @Query(() => [Room], { nullable: true })
   async allRooms(): Promise<Room[] | null> {
     return this.service.find();
   }

@@ -43,7 +43,7 @@ type Player {
 }
 
 type Query {
-  allRooms: [Room]!
+  allRooms: [Room!]
   allUsers: [User!]
 
   """查询房间"""

@@ -1,7 +1,8 @@
 {
-  "name": "baidu-backend",
-  "version": "1.0.0",
+  "name": "ddwp-backend",
+  "version": "0.0.1",
   "license": "MIT",
+  "description": "A mini-program for baidu competition",
   "contributors": [
     {
       "name": "Colin Wang",
@@ -31,6 +32,7 @@
     "apollo-datasource-mongodb": "^0.2.8",
     "apollo-server-cache-redis": "^1.2.2",
     "apollo-server-express": "^2.18.2",
+    "apollo-server-testing": "^2.18.2",
     "class-validator": "^0.12.2",
     "command-line-args": "^5.1.1",
     "cors": "^2.8.5",

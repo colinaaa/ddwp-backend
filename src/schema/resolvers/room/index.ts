@@ -1,8 +1,17 @@
-import { Arg, Mutation, Query, Resolver } from 'type-graphql';
+import {
+  Arg,
+  Mutation,
+  Query,
+  Resolver,
+  Subscription,
+  PubSub,
+  PubSubEngine,
+  Root,
+} from 'type-graphql';
 import { Inject, Service } from 'typedi';
 
 import RoomService, { RoomServiceName } from '@services/room';
-import { Room } from '@models/room';
+import { Room, RoomSubscription } from '@models/room';
 import LineUp from '@models/lineup';
 import logger from '@shared/Logger';
 
@@ -42,13 +51,18 @@ class RoomResolver {
   }
 
   @Mutation(() => Room, { description: '加入房间' })
-  async joinRoom(@Arg('roomNumber', { description: '房间号' }) roomNumber: number): Promise<Room> {
+  async joinRoom(
+    @Arg('roomNumber', { description: '房间号' }) roomNumber: number,
+    @PubSub() pubSub: PubSubEngine
+  ): Promise<Room> {
     const room = await this.service.joinRoom(roomNumber);
 
     if (!room) {
       logger.error('加入房间 %s 失败', roomNumber);
       throw new Error('加入房间失败');
     }
+
+    await pubSub.publish('joinRoom', { data: room });
 
     return room;
   }
@@ -92,6 +106,13 @@ class RoomResolver {
     }
 
     return res;
+  }
+
+  @Subscription(() => Room, { description: 'ceshi', topics: 'joinRoom' })
+  // eslint-disable-next-line class-methods-use-this
+  notification(@Root() notificationPayload: RoomSubscription): RoomSubscription {
+    logger.info('boardcast Room.notification', notificationPayload);
+    return notificationPayload;
   }
 }
 

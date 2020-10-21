@@ -85,6 +85,11 @@ type Room {
   roomNumber: Float!
 }
 
+type Subscription {
+  """ceshi"""
+  notification: Room!
+}
+
 type User {
   """邮箱"""
   email: String!

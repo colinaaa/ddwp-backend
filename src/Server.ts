@@ -1,13 +1,14 @@
 import express from 'express';
+import http from 'http';
 // import jwt from 'express-jwt';
 import rateLimit from 'express-rate-limit';
 import RedisStore from 'rate-limit-redis';
 import morgan from 'morgan';
 import helmet from 'helmet';
-
 import { ApolloServer } from 'apollo-server-express';
 
 import { redisClient, redisCache } from '@shared/redis';
+import logger from '@shared/Logger';
 // import { JWTConfig } from '@shared/constants';
 import router from './routes';
 import schema from './schema';
@@ -36,9 +37,6 @@ if (process.env.NODE_ENV === 'production') {
   app.use(limiter);
 }
 
-// Load router
-app.use(router);
-
 const server = new ApolloServer({
   schema,
   dataSources,
@@ -46,11 +44,23 @@ const server = new ApolloServer({
   engine: {
     reportSchema: false,
   },
+  subscriptions: {
+    onConnect(param) {
+      logger.info('onConnect WebSocket', JSON.stringify(param));
+    },
+  },
 });
+
+// Load router
+app.use(router);
 
 // app.use('/graphql', jwt(JWTConfig).unless({ method: 'GET' }));
 
 server.applyMiddleware({ app });
 
+const httpServer = http.createServer(app);
+
+server.installSubscriptionHandlers(httpServer);
+
 // Export express instance
-export default app;
+export default httpServer;

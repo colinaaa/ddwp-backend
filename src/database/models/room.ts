@@ -41,4 +41,9 @@ export class Room {
 
 export const RoomModel = getModelForClass(Room);
 
+export interface RoomSubscription {
+  roomNumber: number;
+  playersNumber: number;
+}
+
 export default Room;

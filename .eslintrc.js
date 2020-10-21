@@ -17,6 +17,7 @@ module.exports = {
   },
   plugins: ['@typescript-eslint'],
   rules: {
+    'no-shadow': 'off',
     'import/extensions': [
       'error',
       'ignorePackages',

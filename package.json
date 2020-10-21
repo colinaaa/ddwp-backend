@@ -68,7 +68,7 @@
     "@types/express-rate-limit": "^5.1.0",
     "@types/global-agent": "^2.1.0",
     "@types/ioredis": "^4.17.5",
-    "@types/jest": "^26.0.7",
+    "@types/jest": "^26.0.15",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/morgan": "^1.9.1",
     "@types/node": "^14.14.0",

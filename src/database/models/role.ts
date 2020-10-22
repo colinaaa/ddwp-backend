@@ -1,21 +1,17 @@
-enum Role {
-  // 村民
-  Villager,
+import { prop } from '@typegoose/typegoose';
+import { Field, ObjectType } from 'type-graphql';
 
-  // 狼人
-  Werewolf,
+@ObjectType({ description: '角色' })
+class Role {
+  @Field({ description: '角色名称' })
+  @prop({ required: true })
+  name!: string;
 
-  // 预言家
-  Prophet,
-
-  // 猎人
-  Hunter,
-
-  // 女巫
-  Witch,
-
-  // 白痴
-  Idiot,
+  @Field({ description: '角色数量' })
+  @prop({ required: true, default: 0 })
+  count!: number;
 }
+
+export { Role };
 
 export default Role;

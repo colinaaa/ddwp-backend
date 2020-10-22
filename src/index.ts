@@ -14,4 +14,5 @@ task.start();
 
 app.listen({ port }, () => {
   logger.info(`🚀 Server ready at http://localhost:4000`);
+  logger.info(`🚀 WebSocket waiting connections at ws://localhost:4000/graphql`);
 });

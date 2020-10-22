@@ -8,7 +8,7 @@ import RoomResolver from './resolvers/room';
 
 const schema = buildSchemaSync({
   emitSchemaFile: true,
-  resolvers: [UserResolver, RoomResolver],
+  resolvers: [UserResolver, ...RoomResolver],
   container: Container,
 });
 

@@ -2,7 +2,8 @@ import { registerEnumType } from 'type-graphql';
 
 import Gender from '@models/gender';
 import LineUp from '@models/lineup';
-import Role from '@models/role';
+import WerewolfRole from '@models/werewolf/role';
+import GameType from '@models/gameType';
 
 registerEnumType(Gender, {
   name: 'Gender',
@@ -14,7 +15,12 @@ registerEnumType(LineUp, {
   description: '狼人杀阵容组合',
 });
 
-registerEnumType(Role, {
-  name: 'Role',
+registerEnumType(WerewolfRole, {
+  name: 'WerewolfRole',
   description: '狼人杀角色',
+});
+
+registerEnumType(GameType, {
+  name: 'GameType',
+  description: '游戏类型',
 });

@@ -1,5 +1,5 @@
-import LineUp from '@models/lineup';
-import { Room } from '@models/room';
+import InputGameConfig from '@/schema/resolvers/input/gameConfig';
+import { IRoom } from '@models/room';
 
 export const RoomServiceName = 'RoomService';
 
@@ -9,17 +9,17 @@ export interface IRoomService {
    * @async
    * @param cond the condtion for find
    */
-  find(cond?: Partial<Room>): Promise<Room[] | null>;
+  find(cond?: Partial<IRoom>): Promise<IRoom[] | null>;
 
-  findByNumber(num: string | number): Promise<Room | null>;
+  findByNumber(num: string | number): Promise<IRoom | null>;
 
-  createRoom(lineup: LineUp): Promise<Room>;
+  createRoom(config: InputGameConfig): Promise<IRoom>;
 
-  joinRoom(roomNumber: number): Promise<Room | null>;
+  joinRoom(roomNumber: number): Promise<IRoom | null>;
 
-  beginGame(roomNumber: number): Promise<Room | null>;
+  beginGame(roomNumber: number): Promise<IRoom | null>;
 
-  selectPosition(roomNumber: number, position: number): Promise<Room | null>;
+  selectPosition(roomNumber: number, position: number): Promise<IRoom | null>;
 }
 
 export default IRoomService;

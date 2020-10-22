@@ -1,36 +1,47 @@
 import { Container, Service } from 'typedi';
+import { ReturnModelType } from '@typegoose/typegoose';
 
 import logger from '@shared/Logger';
 import { randomRoomNumber } from '@shared/random';
-import { Room, RoomModel } from '@models/room';
-import { LineUp } from '@models/lineup';
+import { IRoom } from '@models/room';
+import { WerewolfRoomModel } from '@models/werewolf/room';
+import InputGameConfig from '@/schema/resolvers/input/gameConfig';
 
 import { IRoomService, RoomServiceName } from '../room';
 
+type ModelT = ReturnModelType<typeof IRoom>;
+
+const Models = [WerewolfRoomModel];
+
 @Service(RoomServiceName)
 class RoomService implements IRoomService {
-  private readonly model = RoomModel;
+  // eslint-disable-next-line no-useless-constructor
+  constructor(private readonly model: ReturnModelType<typeof IRoom>) {}
 
   async findByNumber(num: string | number) {
     return this.model.findOne({ roomNumber: +num });
   }
 
-  async find(cond: Partial<Room> = {}) {
+  async find(cond: Partial<IRoom> = {}) {
     return this.model.find(cond);
   }
 
-  async createRoom(lineup: LineUp): Promise<Room> {
+  async createRoom(gameConfig: InputGameConfig): Promise<IRoom> {
+    const { gameType, lineup } = gameConfig;
     const num = await randomRoomNumber();
 
+    const playersNumber = lineup.map(({ count }) => count).reduce((acc, cur) => acc + cur, 0);
+
     return this.model.create({
-      lineup,
-      roomNumber: num,
-      playersNumber: 1,
+      gameType,
+      gameConfig,
       players: [],
+      playersNumber,
+      roomNumber: num,
     });
   }
 
-  async joinRoom(roomNumber: number): Promise<Room | null> {
+  async joinRoom(roomNumber: number): Promise<IRoom | null> {
     // TODO: 房间已满
     return this.model.findOneAndUpdate(
       {
@@ -41,7 +52,7 @@ class RoomService implements IRoomService {
     );
   }
 
-  async beginGame(roomNumber: number): Promise<Room | null> {
+  async beginGame(roomNumber: number): Promise<IRoom | null> {
     const room = await this.findByNumber(roomNumber);
 
     if (!room) {
@@ -56,7 +67,7 @@ class RoomService implements IRoomService {
     throw new Error('还不能开始游戏');
   }
 
-  async selectPosition(roomNumber: number, position: number): Promise<Room | null> {
+  async selectPosition(roomNumber: number, position: number): Promise<IRoom | null> {
     return this.model.findOneAndUpdate(
       { roomNumber },
       { $push: { players: { position } } },
@@ -66,4 +77,9 @@ class RoomService implements IRoomService {
 }
 
 logger.info('Register RoomSerivce');
-Container.set(RoomServiceName, new RoomService());
+const injectModel = (model: ModelT) => {
+  logger.info(`  - Register ${model.modelName}${RoomServiceName}`);
+  Container.set(`${model.modelName}${RoomServiceName}`, new RoomService(model));
+};
+
+Models.forEach((model) => injectModel(model));

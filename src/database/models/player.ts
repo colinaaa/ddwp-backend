@@ -1,19 +1,17 @@
-import { ObjectType, Field } from 'type-graphql';
-import { prop, getModelForClass } from '@typegoose/typegoose';
+import { Field, ObjectType } from 'type-graphql';
+import { prop } from '@typegoose/typegoose';
 
-import Role from './role';
-
-@ObjectType()
-export class Player {
-  @Field(() => Role, { description: '角色' })
-  @prop({ required: false, enum: Role })
-  role?: Role;
+@ObjectType({ description: '游戏玩家' })
+class Player {
+  @Field({ description: '角色', nullable: true })
+  @prop({ required: false })
+  role?: string;
 
   @Field({ description: '位置' })
   @prop({ required: true })
   position!: number;
 }
 
-export const PlayerModel = getModelForClass(Player);
+export { Player };
 
 export default Player;

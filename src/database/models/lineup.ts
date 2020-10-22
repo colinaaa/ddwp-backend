@@ -1,3 +1,5 @@
+//! @deprecated(reason: "改为多个游戏，使用GameConfig")
+
 enum LineUp {
   STANDARD_NINE,
 }

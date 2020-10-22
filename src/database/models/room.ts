@@ -1,11 +1,13 @@
-import { ObjectType, Field } from 'type-graphql';
-import { prop, getModelForClass } from '@typegoose/typegoose';
+import { Field, InterfaceType } from 'type-graphql';
+import { prop } from '@typegoose/typegoose';
 
-import LineUp, { mapLineupToPlayerNumbers } from './lineup';
+import { LineUp } from './lineup';
 import Player from './player';
+import GameType from './gameType';
+import IGameConfig from './config';
 
-@ObjectType({ description: ' 游戏房间' })
-export class Room {
+@InterfaceType({ description: ' 游戏房间' })
+class IRoom {
   @Field({ description: '房间号' })
   @prop({ required: true })
   roomNumber!: number;
@@ -18,9 +20,21 @@ export class Room {
   @prop({ required: true })
   playersNumber!: number;
 
-  @Field(() => LineUp, { description: '阵容' })
+  @Field(() => GameType, { description: '游戏类型' })
+  @prop({ required: true, enum: GameType })
+  gameType!: GameType;
+
+  // @Field(() => IGameConfig, { description: '游戏配置' })
   @prop({ required: true })
-  lineup!: LineUp;
+  gameConfig!: IGameConfig;
+
+  @Field(() => LineUp, {
+    description: '阵容',
+    deprecationReason: '改为多个游戏，使用GameConfig',
+    nullable: true,
+  })
+  @prop({ required: false })
+  lineup?: LineUp;
 
   @Field(() => [Player], { description: '玩家信息', nullable: true })
   @prop({ required: false, default: [], type: Player })
@@ -35,15 +49,10 @@ export class Room {
   isEnd?: boolean;
 
   public canBegin(): boolean {
-    return !this.isBegin && this.playersNumber === mapLineupToPlayerNumbers(this.lineup);
+    return !this.isBegin && this.playersNumber === this.players.length;
   }
 }
 
-export const RoomModel = getModelForClass(Room);
+export { IRoom };
 
-export interface RoomSubscription {
-  roomNumber: number;
-  playersNumber: number;
-}
-
-export default Room;
+export default IRoom;

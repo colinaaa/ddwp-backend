@@ -1,4 +1,4 @@
-import { Field, InputType } from 'type-graphql';
+import { Field, InputType, Int } from 'type-graphql';
 
 import GameType from '@models/gameType';
 
@@ -6,7 +6,7 @@ import { InputRole } from './role';
 
 @InputType({ description: '创建游戏配置', isAbstract: true })
 abstract class InputGameConfig {
-  @Field({ description: '总人数' })
+  @Field(() => Int, { description: '总人数' })
   totalNumber!: number;
 
   @Field(() => GameType, { description: '游戏类型' })

@@ -1,11 +1,11 @@
-import { Field, InterfaceType } from 'type-graphql';
+import { Field, Int, InterfaceType } from 'type-graphql';
 import { prop } from '@typegoose/typegoose';
 
 import { Role } from './role';
 
 @InterfaceType({ description: '创建游戏配置', isAbstract: true })
 abstract class IGameConfig {
-  @Field({ description: '总人数' })
+  @Field(() => Int, { description: '总人数' })
   @prop({ required: true })
   totalNumber!: number;
 

@@ -1,4 +1,4 @@
-import { Field, InterfaceType } from 'type-graphql';
+import { Field, Int, InterfaceType } from 'type-graphql';
 import { prop } from '@typegoose/typegoose';
 
 import { LineUp } from './lineup';
@@ -8,7 +8,7 @@ import IGameConfig from './config';
 
 @InterfaceType({ description: ' 游戏房间' })
 class IRoom {
-  @Field({ description: '房间号' })
+  @Field(() => Int, { description: '房间号' })
   @prop({ required: true })
   roomNumber!: number;
 
@@ -16,7 +16,7 @@ class IRoom {
   @prop({ required: false })
   password?: string;
 
-  @Field({ description: '玩家人数' })
+  @Field(() => Int, { description: '玩家人数' })
   @prop({ required: true })
   playersNumber!: number;
 

@@ -19,7 +19,7 @@ class RoomResolver {
   }
 
   @Query(() => WerewolfRoom, { description: '查询房间' })
-  async roomByNumber(@Arg('number') num: number): Promise<WerewolfRoom> {
+  async roomByNumber(@Arg('number', () => Int) num: number): Promise<WerewolfRoom> {
     const room = await this.service.findByNumber(num);
     if (!room) {
       logger.error('查询房间 %s 失败', num);
@@ -58,7 +58,7 @@ class RoomResolver {
 
   @Mutation(() => WerewolfRoom, { description: '开始游戏' })
   async beginGame(
-    @Arg('roomNumber', { description: '房间号' }) roomNumber: number
+    @Arg('roomNumber', () => Int, { description: '房间号' }) roomNumber: number
   ): Promise<WerewolfRoom> {
     const room = await this.service.beginGame(roomNumber);
 
@@ -72,8 +72,8 @@ class RoomResolver {
 
   @Mutation(() => WerewolfRoom, { description: '选择位置' })
   async selectPosition(
-    @Arg('roomNumber', { description: '房间号' }) roomNumber: number,
-    @Arg('position', { description: '位置' }) position: number
+    @Arg('roomNumber', () => Int, { description: '房间号' }) roomNumber: number,
+    @Arg('position', () => Int, { description: '位置' }) position: number
   ): Promise<WerewolfRoom> {
     const room = await this.roomByNumber(roomNumber);
 

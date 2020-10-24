@@ -1,5 +1,5 @@
 import { prop } from '@typegoose/typegoose';
-import { Field, ObjectType } from 'type-graphql';
+import { Field, Int, ObjectType } from 'type-graphql';
 
 @ObjectType({ description: '角色' })
 class Role {
@@ -7,7 +7,7 @@ class Role {
   @prop({ required: true })
   name!: string;
 
-  @Field({ description: '角色数量' })
+  @Field(() => Int, { description: '角色数量' })
   @prop({ required: true, default: 0 })
   count!: number;
 }

@@ -47,7 +47,7 @@ class RoomService implements IRoomService {
       {
         roomNumber,
       },
-      { $inc: { playersNumber: 1 } },
+      { $push: { players: { position: -1 } } },
       { new: true }
     );
   }

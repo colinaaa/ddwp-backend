@@ -127,6 +127,14 @@ type Role {
   name: String!
 }
 
+type Subscription {
+  """订阅狼人杀房间变化"""
+  roomUpdated(
+    """房间号"""
+    roomNumber: Int!
+  ): WerewolfRoom!
+}
+
 type User {
   """邮箱"""
   email: String!

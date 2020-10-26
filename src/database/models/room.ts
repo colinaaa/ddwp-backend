@@ -25,7 +25,7 @@ class IRoom {
   gameType!: GameType;
 
   // @Field(() => IGameConfig, { description: '游戏配置' })
-  @prop({ required: true })
+  @prop({ required: true, _id: false })
   gameConfig!: IGameConfig;
 
   @Field(() => LineUp, {
@@ -33,11 +33,11 @@ class IRoom {
     deprecationReason: '改为多个游戏，使用GameConfig',
     nullable: true,
   })
-  @prop({ required: false })
+  @prop({ required: false, enum: LineUp })
   lineup?: LineUp;
 
   @Field(() => [Player], { description: '玩家信息', nullable: true })
-  @prop({ required: false, default: [], type: Player })
+  @prop({ required: false, default: [], type: Player, _id: false })
   players!: Array<Player>;
 
   @Field({ description: '是否开始', defaultValue: true })

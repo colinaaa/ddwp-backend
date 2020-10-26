@@ -8,7 +8,7 @@ import WerewolfConfig from './config';
 @ObjectType({ implements: IRoom, description: '狼人杀房间' })
 class WerewolfRoom extends IRoom {
   @Field(() => WerewolfConfig, { description: '狼人杀游戏配置' })
-  @prop({ required: true })
+  @prop({ required: true, _id: false })
   gameConfig!: WerewolfConfig;
 
   @Field(() => GameType, { description: '游戏类型' })

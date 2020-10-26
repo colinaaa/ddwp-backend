@@ -15,6 +15,8 @@ export interface IRoomService {
 
   createRoom(config: InputGameConfig): Promise<IRoom>;
 
+  updateRoom(roomNumber: number, what: Partial<IRoom>): Promise<IRoom | null>;
+
   joinRoom(roomNumber: number): Promise<IRoom | null>;
 
   beginGame(roomNumber: number): Promise<IRoom | null>;

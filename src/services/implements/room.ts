@@ -41,6 +41,10 @@ class RoomService implements IRoomService {
     });
   }
 
+  async updateRoom(roomNumber: number, what: Partial<IRoom>): Promise<IRoom | null> {
+    return this.model.findOneAndUpdate({ roomNumber }, { $set: what }, { new: true });
+  }
+
   async joinRoom(roomNumber: number): Promise<IRoom | null> {
     // TODO: 房间已满
     return this.model.findOneAndUpdate(
@@ -68,11 +72,30 @@ class RoomService implements IRoomService {
   }
 
   async selectPosition(roomNumber: number, position: number): Promise<IRoom | null> {
-    return this.model.findOneAndUpdate(
-      { roomNumber },
-      { $push: { players: { position } } },
-      { new: true }
-    );
+    const room = await this.findByNumber(roomNumber);
+    if (!room) {
+      logger.error('选择位置失败 %s ，房间不存在', roomNumber);
+      throw new Error('选择位置失败');
+    }
+
+    const { players, _id: id } = room;
+
+    const set = new Set(players.map(({ position }) => position));
+
+    if (set.has(position)) {
+      logger.error('选择位置失败 %s ，座位已有人', roomNumber);
+      throw new Error('座位已有人');
+    }
+
+    const index = players.findIndex(({ position }) => position === -1);
+
+    if (index === -1) {
+      logger.error('%s 未找到空位置 %s', roomNumber, players);
+    }
+
+    players[index].position = position;
+
+    return this.model.findByIdAndUpdate(id, { $set: { players } }, { new: true });
   }
 }
 

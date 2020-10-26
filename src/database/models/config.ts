@@ -10,7 +10,7 @@ abstract class IGameConfig {
   totalNumber!: number;
 
   @Field(() => [Role], { description: '阵容', defaultValue: [] })
-  @prop({ required: true, type: [Role] })
+  @prop({ required: true, type: [Role], _id: false })
   lineup!: Array<Role>;
 }
 

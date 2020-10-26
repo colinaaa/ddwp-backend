@@ -15,6 +15,7 @@ import { Inject, Service } from 'typedi';
 import RoomService, { RoomServiceName } from '@services/room';
 import { WerewolfRoom, WerewolfRoomModelName } from '@models/werewolf/room';
 import logger from '@shared/Logger';
+import shuffle from '@shared/shuffle';
 
 import { InputGameConfig } from '../input/gameConfig';
 
@@ -25,6 +26,7 @@ const NotificationTopic = `${RoomServiceName}NOTIFICATION`;
 const JoinRoomTopic = `Join${NotificationTopic}`;
 const BeginGameTopic = `Begin${NotificationTopic}`;
 const SelectPosTopic = `Pos${NotificationTopic}`;
+const ShuffleTopic = `Shuffle${NotificationTopic}`;
 
 @Service()
 @Resolver(WerewolfRoom)
@@ -127,9 +129,49 @@ class RoomResolver {
     return res;
   }
 
+  @Mutation(() => WerewolfRoom, {
+    description: '开始发牌',
+  })
+  async deal(
+    @Arg('roomNumber', () => Int, { description: '房间号' }) roomNumber: number,
+    @PubSub(ShuffleTopic) publish: Publisher<NotificationPayload>
+  ): Promise<Partial<WerewolfRoom>> {
+    const {
+      gameConfig: { lineup },
+      players,
+    } = await this.roomByNumber(roomNumber);
+
+    if (!lineup) {
+      logger.error('deal with empty lineup', roomNumber);
+      throw new Error('阵容为空，发牌失败');
+    }
+
+    const roles = lineup.reduce(
+      (acc: string[], { count, name }) => [...acc, ...Array(count).fill(name)],
+      []
+    );
+
+    if (roles.length !== players.length) {
+      logger.error('deal with roles.length !== players.length roles: ', roles, roomNumber);
+      throw new Error('发牌失败');
+    }
+
+    const shuffledLinup = shuffle(roles);
+    const shuffledPlayers = players.map(({ position }, index) => ({
+      position,
+      role: shuffledLinup[index],
+    }));
+
+    await this.service.updateRoom(roomNumber, { players: shuffledPlayers });
+
+    await publish({ players: shuffledPlayers });
+
+    return { players: shuffledPlayers };
+  }
+
   @Subscription(() => WerewolfRoom, {
     description: '订阅狼人杀房间变化',
-    topics: [JoinRoomTopic, BeginGameTopic, SelectPosTopic],
+    topics: [JoinRoomTopic, BeginGameTopic, SelectPosTopic, ShuffleTopic],
     filter: ({ args, payload }) => args.roomNumber === payload.roomNumber,
   })
   roomUpdated(

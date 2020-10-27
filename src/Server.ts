@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import { ApolloServer } from 'apollo-server-express';
 
+import { WebSocketEndpoint } from '@shared/constants';
 import { redisClient, redisCache } from '@shared/redis';
 import logger from '@shared/Logger';
 // import { JWTConfig } from '@shared/constants';
@@ -23,6 +24,8 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 if (process.env.NODE_ENV === 'production') {
+  app.use(morgan('combined'));
+
   // Security
   app.use(helmet());
 
@@ -45,6 +48,7 @@ const server = new ApolloServer({
     reportSchema: false,
   },
   subscriptions: {
+    path: WebSocketEndpoint,
     onConnect(param) {
       logger.info('onConnect WebSocket', JSON.stringify(param));
     },

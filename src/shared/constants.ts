@@ -22,3 +22,5 @@ export const JWTConfig = {
   secret: process.env.JWT_SECRET || 'secret',
   algorithms: ['HS256'],
 };
+
+export const WebSocketEndpoint = '/ws';

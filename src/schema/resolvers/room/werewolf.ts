@@ -162,11 +162,16 @@ class RoomResolver {
       role: shuffledLinup[index],
     }));
 
-    await this.service.updateRoom(roomNumber, { players: shuffledPlayers });
+    const room = await this.service.updateRoom(roomNumber, { players: shuffledPlayers });
 
-    await publish({ players: shuffledPlayers });
+    if (!room) {
+      logger.error('deal update room error');
+      throw new Error('发牌失败');
+    }
 
-    return { players: shuffledPlayers };
+    await publish(room);
+
+    return room;
   }
 
   @Subscription(() => WerewolfRoom, {

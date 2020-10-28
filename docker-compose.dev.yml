@@ -11,6 +11,20 @@ services:
     command: 'mongod --port 27017'
     volumes:
       - mongodb:/data/db
+  backend:
+    image: registry.cn-hangzhou.aliyuncs.com/colinaaa/ddwp-backend:dev
+    env_file:
+      - .env
+      - ./env/development.env
+    environment:
+      - NODE_ENV=development
+    ports:
+      - 4000:4000
+    links:
+      - mongodb
+      - redis
+    volumes:
+      - ./logs:/usr/src/backend/logs
 
 volumes:
   mongodb:

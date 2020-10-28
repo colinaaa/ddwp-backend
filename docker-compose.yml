@@ -8,7 +8,7 @@ services:
     volumes:
       - mongodb:/data/db
   backend:
-    build: .
+    image: registry.cn-hangzhou.aliyuncs.com/colinaaa/ddwp-backend:latest
     env_file:
       - .env
       - ./env/production.env

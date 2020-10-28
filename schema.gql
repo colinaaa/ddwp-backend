@@ -90,6 +90,12 @@ type Mutation {
     roomNumber: Int!
   ): WerewolfRoom!
 
+  """结束游戏"""
+  endGame(
+    """房间号"""
+    roomNumber: Int!
+  ): WerewolfRoom!
+
   """加入房间"""
   joinRoom(
     """房间号"""

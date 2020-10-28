@@ -174,6 +174,22 @@ class RoomResolver {
     return room;
   }
 
+  @Mutation(() => WerewolfRoom, { description: '结束游戏' })
+  async endGame(
+    @Arg('roomNumber', () => Int, { description: '房间号' }) roomNumber: number
+  ): Promise<WerewolfRoom> {
+    logger.info('end game', roomNumber);
+
+    const room = await this.service.updateRoom(roomNumber, { isEnd: true });
+
+    if (!room) {
+      logger.error('endGame update error');
+      throw new Error('结束游戏失败');
+    }
+
+    return room;
+  }
+
   @Subscription(() => WerewolfRoom, {
     description: '订阅狼人杀房间变化',
     topics: [JoinRoomTopic, BeginGameTopic, SelectPosTopic, ShuffleTopic],

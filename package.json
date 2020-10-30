@@ -44,7 +44,7 @@
     "express-validator": "^6.6.1",
     "express-youch": "^1.0.1",
     "global-agent": "^2.1.12",
-    "graphql": "^15.3.0",
+    "graphql": "^15.4.0",
     "helmet": "^4.1.0",
     "http-status-codes": "^2.1.4",
     "ioredis": "^4.19.1",

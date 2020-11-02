@@ -79,7 +79,28 @@ enum LineUp {
 
 type Mutation {
   """开始游戏"""
-  undercoverBeginGame(
+  beginGame(
+    """房间号"""
+    roomNumber: Int!
+  ): UnderCoverRoom!
+
+  """结束游戏"""
+  endGame(
+    """房间号"""
+    roomNumber: Int!
+  ): UnderCoverRoom!
+
+  """加入房间"""
+  joinRoom(
+    """房间号"""
+    roomNumber: Int!
+  ): UnderCoverRoom!
+
+  """选择位置"""
+  selectPosition(
+    """位置"""
+    position: Int!
+
     """房间号"""
     roomNumber: Int!
   ): UnderCoverRoom!
@@ -93,59 +114,11 @@ type Mutation {
     roomNumber: Int!
   ): UnderCoverRoom!
 
-  """结束游戏"""
-  undercoverEndGame(
-    """房间号"""
-    roomNumber: Int!
-  ): UnderCoverRoom!
-
-  """加入房间"""
-  undercoverJoinRoom(
-    """房间号"""
-    roomNumber: Int!
-  ): UnderCoverRoom!
-
-  """选择位置"""
-  undercoverSelectPos(
-    """位置"""
-    position: Int!
-
-    """房间号"""
-    roomNumber: Int!
-  ): UnderCoverRoom!
-
-  """开始游戏"""
-  werewolfBeginGame(
-    """房间号"""
-    roomNumber: Int!
-  ): WerewolfRoom!
-
   """创建房间"""
   werewolfCreateRoom(config: InputGameConfig!): WerewolfRoom!
 
   """开始发牌"""
   werewolfDeal(
-    """房间号"""
-    roomNumber: Int!
-  ): WerewolfRoom!
-
-  """结束游戏"""
-  werewolfEndGame(
-    """房间号"""
-    roomNumber: Int!
-  ): WerewolfRoom!
-
-  """加入房间"""
-  werewolfJoinRoom(
-    """房间号"""
-    roomNumber: Int!
-  ): WerewolfRoom!
-
-  """选择位置"""
-  werewolfSelectPos(
-    """位置"""
-    position: Int!
-
     """房间号"""
     roomNumber: Int!
   ): WerewolfRoom!

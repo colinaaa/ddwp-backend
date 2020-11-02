@@ -73,10 +73,7 @@ const createAbstractRoom = <T extends ClassType>(prefix: string, objectType: T) 
       return room;
     }
 
-    @Mutation(() => objectType, {
-      name: `joinRoom`,
-      description: '加入房间',
-    })
+    @Mutation(() => objectType, { name: `${prefix}JoinRoom`, description: '加入房间' })
     async joinRoom(
       @Arg('roomNumber', () => Int, { description: '房间号' }) roomNumber: number,
       @PubSub(JoinRoomTopic) publish: Publisher<NotificationPayload>
@@ -93,7 +90,7 @@ const createAbstractRoom = <T extends ClassType>(prefix: string, objectType: T) 
     }
 
     @Mutation(() => objectType, {
-      name: `beginGame`,
+      name: `${prefix}BeginGame`,
       description: '开始游戏',
     })
     async beginGame(
@@ -112,7 +109,7 @@ const createAbstractRoom = <T extends ClassType>(prefix: string, objectType: T) 
     }
 
     @Mutation(() => objectType, {
-      name: `selectPosition`,
+      name: `${prefix}SelectPos`,
       description: '选择位置',
     })
     async selectPosition(
@@ -191,7 +188,7 @@ const createAbstractRoom = <T extends ClassType>(prefix: string, objectType: T) 
     }
 
     @Mutation(() => objectType, {
-      name: `endGame`,
+      name: `${prefix}EndGame`,
       description: '结束游戏',
     })
     async endGame(

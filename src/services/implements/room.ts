@@ -5,13 +5,15 @@ import logger from '@shared/Logger';
 import { randomRoomNumber } from '@shared/random';
 import { IRoom } from '@models/room';
 import { WerewolfRoomModel } from '@models/werewolf/room';
-import InputGameConfig from '@/schema/resolvers/input/gameConfig';
+import { UnderCoverRoomModel } from '@models/undercover/room';
+
+import InputGameConfig from '@input/gameConfig';
 
 import { IRoomService, RoomServiceName } from '../room';
 
 type ModelT = ReturnModelType<typeof IRoom>;
 
-const Models = [WerewolfRoomModel];
+const Models = [WerewolfRoomModel, UnderCoverRoomModel];
 
 @Service(RoomServiceName)
 class RoomService implements IRoomService {

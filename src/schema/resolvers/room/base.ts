@@ -16,7 +16,7 @@ import RoomService, { RoomServiceName } from '@services/room';
 import shuffle from '@shared/shuffle';
 import logger from '@shared/Logger';
 
-import { InputGameConfig } from '../input/gameConfig';
+import { InputGameConfig } from '@input/gameConfig';
 
 const NotificationTopic = `${RoomServiceName}NOTIFICATION`;
 const JoinRoomTopic = `Join${NotificationTopic}`;

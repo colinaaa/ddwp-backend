@@ -1,4 +1,4 @@
-import InputGameConfig from '@/schema/resolvers/input/gameConfig';
+import InputGameConfig from '@input/gameConfig';
 import { IRoom } from '@models/room';
 
 export const RoomServiceName = 'RoomService';

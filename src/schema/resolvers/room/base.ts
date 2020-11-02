@@ -44,7 +44,7 @@ const createAbstractRoom = <T extends ClassType>(prefix: string, objectType: T) 
     }
 
     @Query(() => objectType, {
-      name: `${prefix}RoomMyNumber`,
+      name: `${prefix}RoomByNumber`,
       description: '查询房间',
     })
     async roomByNumber(@Arg('number', () => Int) num: number): Promise<IRoom> {
@@ -109,7 +109,7 @@ const createAbstractRoom = <T extends ClassType>(prefix: string, objectType: T) 
     }
 
     @Mutation(() => objectType, {
-      name: `${prefix}selectPos`,
+      name: `${prefix}SelectPos`,
       description: '选择位置',
     })
     async selectPosition(

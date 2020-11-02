@@ -106,7 +106,7 @@ type Mutation {
   ): UnderCoverRoom!
 
   """选择位置"""
-  undercoverselectPos(
+  undercoverSelectPos(
     """位置"""
     position: Int!
 
@@ -142,7 +142,7 @@ type Mutation {
   ): WerewolfRoom!
 
   """选择位置"""
-  werewolfselectPos(
+  werewolfSelectPos(
     """位置"""
     position: Int!
 
@@ -164,12 +164,12 @@ type Query {
   allUsers: [User!]
 
   """查询房间"""
-  undercoverRoomMyNumber(number: Int!): UnderCoverRoom!
+  undercoverRoomByNumber(number: Int!): UnderCoverRoom!
   undercoverRooms: [UnderCoverRoom!]
   userByPhone(phone: String!): User!
 
   """查询房间"""
-  werewolfRoomMyNumber(number: Int!): WerewolfRoom!
+  werewolfRoomByNumber(number: Int!): WerewolfRoom!
   werewolfRooms: [WerewolfRoom!]
 }
 

@@ -44,6 +44,9 @@ input InputRole {
 
 """ 游戏房间"""
 interface IRoom {
+  """游戏配置"""
+  gameConfig: IGameConfig!
+
   """游戏类型"""
   gameType: GameType!
 
@@ -76,34 +79,70 @@ enum LineUp {
 
 type Mutation {
   """开始游戏"""
-  beginGame(
+  undercoverBeginGame(
+    """房间号"""
+    roomNumber: Int!
+  ): UnderCoverRoom!
+
+  """创建房间"""
+  undercoverCreateRoom(config: InputGameConfig!): UnderCoverRoom!
+
+  """开始发牌"""
+  undercoverDeal(
+    """房间号"""
+    roomNumber: Int!
+  ): UnderCoverRoom!
+
+  """结束游戏"""
+  undercoverEndGame(
+    """房间号"""
+    roomNumber: Int!
+  ): UnderCoverRoom!
+
+  """加入房间"""
+  undercoverJoinRoom(
+    """房间号"""
+    roomNumber: Int!
+  ): UnderCoverRoom!
+
+  """选择位置"""
+  undercoverselectPos(
+    """位置"""
+    position: Int!
+
+    """房间号"""
+    roomNumber: Int!
+  ): UnderCoverRoom!
+
+  """开始游戏"""
+  werewolfBeginGame(
     """房间号"""
     roomNumber: Int!
   ): WerewolfRoom!
 
   """创建房间"""
-  createRoom(config: InputGameConfig!): WerewolfRoom!
+  werewolfCreateRoom(config: InputGameConfig!): WerewolfRoom!
 
   """开始发牌"""
-  deal(
+  werewolfDeal(
     """房间号"""
     roomNumber: Int!
   ): WerewolfRoom!
 
   """结束游戏"""
-  endGame(
+  werewolfEndGame(
     """房间号"""
     roomNumber: Int!
   ): WerewolfRoom!
 
   """加入房间"""
-  joinRoom(
+  werewolfJoinRoom(
     """房间号"""
     roomNumber: Int!
   ): WerewolfRoom!
 
   """选择位置"""
-  selectPosition(
+  werewolfselectPos(
     """位置"""
     position: Int!
 
@@ -122,12 +161,16 @@ type Player {
 }
 
 type Query {
-  allRooms: [WerewolfRoom!]
   allUsers: [User!]
 
   """查询房间"""
-  roomByNumber(number: Int!): WerewolfRoom!
+  undercoverRoomMyNumber(number: Int!): UnderCoverRoom!
+  undercoverRooms: [UnderCoverRoom!]
   userByPhone(phone: String!): User!
+
+  """查询房间"""
+  werewolfRoomMyNumber(number: Int!): WerewolfRoom!
+  werewolfRooms: [WerewolfRoom!]
 }
 
 """角色"""
@@ -140,11 +183,56 @@ type Role {
 }
 
 type Subscription {
-  """订阅狼人杀房间变化"""
-  roomUpdated(
+  """订阅房间变化"""
+  undercoverRoomUpdated(
+    """房间号"""
+    roomNumber: Int!
+  ): UnderCoverRoom!
+
+  """订阅房间变化"""
+  werewolfRoomUpdated(
     """房间号"""
     roomNumber: Int!
   ): WerewolfRoom!
+}
+
+"""谁是卧底游戏配置"""
+type UnderCoverConfig implements IGameConfig {
+  """阵容"""
+  lineup: [Role!]
+
+  """总人数"""
+  totalNumber: Int!
+}
+
+"""谁是卧底房间"""
+type UnderCoverRoom implements IRoom {
+  """谁是卧底游戏配置"""
+  gameConfig: UnderCoverConfig!
+
+  """游戏类型"""
+  gameType: GameType!
+
+  """是否开始"""
+  isBegin: Boolean
+
+  """是否结束"""
+  isEnd: Boolean
+
+  """阵容"""
+  lineup: LineUp @deprecated(reason: "改为多个游戏，使用GameConfig")
+
+  """密码"""
+  password: String!
+
+  """玩家信息"""
+  players: [Player!]
+
+  """玩家人数"""
+  playersNumber: Int!
+
+  """房间号"""
+  roomNumber: Int!
 }
 
 type User {

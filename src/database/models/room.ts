@@ -24,7 +24,7 @@ class IRoom {
   @prop({ required: true, enum: GameType })
   gameType!: GameType;
 
-  // @Field(() => IGameConfig, { description: '游戏配置' })
+  @Field(() => IGameConfig, { description: '游戏配置' })
   @prop({ required: true, _id: false })
   gameConfig!: IGameConfig;
 

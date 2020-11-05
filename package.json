@@ -91,7 +91,7 @@
     "nodemon": "^2.0.6",
     "prettier": "^2.0.5",
     "supertest": "^6.0.0",
-    "ts-jest": "^26.1.4",
+    "ts-jest": "^26.4.3",
     "ts-node": "^9.0.0",
     "tsc-alias": "^1.1.1",
     "tsconfig-paths": "^3.9.0",

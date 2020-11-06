@@ -1,5 +1,6 @@
 import InputGameConfig from '@input/gameConfig';
 import { IRoom } from '@models/room';
+import { Player } from '@models/player';
 
 export const RoomServiceName = 'RoomService';
 
@@ -17,7 +18,7 @@ export interface IRoomService {
 
   updateRoom(roomNumber: number, what: Partial<IRoom>): Promise<IRoom | null>;
 
-  joinRoom(roomNumber: number): Promise<IRoom | null>;
+  joinRoom(roomNumber: number, newPlayer?: Player): Promise<IRoom | null>;
 
   beginGame(roomNumber: number): Promise<IRoom | null>;
 

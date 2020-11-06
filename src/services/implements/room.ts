@@ -4,6 +4,7 @@ import { ReturnModelType } from '@typegoose/typegoose';
 import logger from '@shared/Logger';
 import { randomRoomNumber } from '@shared/random';
 import { IRoom } from '@models/room';
+import { Player } from '@models/player';
 import { WerewolfRoomModel } from '@models/werewolf/room';
 import { UnderCoverRoomModel } from '@models/undercover/room';
 
@@ -47,13 +48,13 @@ class RoomService implements IRoomService {
     return this.model.findOneAndUpdate({ roomNumber }, { $set: what }, { new: true });
   }
 
-  async joinRoom(roomNumber: number): Promise<IRoom | null> {
+  async joinRoom(roomNumber: number, newPlayer: Player = { position: -1 }): Promise<IRoom | null> {
     // TODO: 房间已满
     return this.model.findOneAndUpdate(
       {
         roomNumber,
       },
-      { $push: { players: { position: -1 } } },
+      { $push: { players: { ...newPlayer } } },
       { new: true }
     );
   }

@@ -184,13 +184,13 @@ type Role {
 
 type Subscription {
   """订阅房间变化"""
-  undercoverRoomUpdated(
+  undercoverRoomByNumber(
     """房间号"""
     roomNumber: Int!
   ): UnderCoverRoom!
 
   """订阅房间变化"""
-  werewolfRoomUpdated(
+  werewolfRoomByNumber(
     """房间号"""
     roomNumber: Int!
   ): WerewolfRoom!

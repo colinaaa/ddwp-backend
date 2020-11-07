@@ -207,7 +207,7 @@ const createAbstractRoom = <T extends ClassType>(prefix: string, objectType: T) 
     }
 
     @Subscription(() => objectType, {
-      name: `${prefix}RoomUpdated`,
+      name: `${prefix}RoomByNumber`,
       description: '订阅房间变化',
       topics: [JoinRoomTopic, BeginGameTopic, SelectPosTopic, ShuffleTopic],
       filter: ({ args, payload }) => args.roomNumber === payload.roomNumber,

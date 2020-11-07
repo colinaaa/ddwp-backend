@@ -63,7 +63,7 @@ interface IRoom {
   password: String!
 
   """玩家信息"""
-  players: [Player!]
+  players: [Player!]!
 
   """玩家人数"""
   playersNumber: Int!
@@ -226,7 +226,7 @@ type UnderCoverRoom implements IRoom {
   password: String!
 
   """玩家信息"""
-  players: [Player!]
+  players: [Player!]!
 
   """玩家人数"""
   playersNumber: Int!
@@ -279,7 +279,7 @@ type WerewolfRoom implements IRoom {
   password: String!
 
   """玩家信息"""
-  players: [Player!]
+  players: [Player!]!
 
   """玩家人数"""
   playersNumber: Int!

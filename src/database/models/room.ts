@@ -36,7 +36,7 @@ class IRoom {
   @prop({ required: false, enum: LineUp })
   lineup?: LineUp;
 
-  @Field(() => [Player], { description: '玩家信息', nullable: true })
+  @Field(() => [Player], { description: '玩家信息' })
   @prop({ required: false, default: [], type: Player, _id: false })
   players!: Array<Player>;
 

@@ -19,16 +19,17 @@ import logger from '@shared/Logger';
 import { InputGameConfig } from '@input/gameConfig';
 
 const NotificationTopic = `${RoomServiceName}NOTIFICATION`;
-const JoinRoomTopic = `Join${NotificationTopic}`;
-const BeginGameTopic = `Begin${NotificationTopic}`;
-const SelectPosTopic = `Pos${NotificationTopic}`;
-const ShuffleTopic = `Shuffle${NotificationTopic}`;
+export const JoinRoomTopic = `Join${NotificationTopic}`;
+export const BeginGameTopic = `Begin${NotificationTopic}`;
+export const SelectPosTopic = `Pos${NotificationTopic}`;
+export const ShuffleTopic = `Shuffle${NotificationTopic}`;
+export const OutTopic = `Out${NotificationTopic}`;
 
-type NotificationPayload = Partial<IRoom>;
+export type NotificationPayload = Partial<IRoom>;
 type Notification = NotificationPayload;
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const createAbstractRoom = <T extends ClassType>(prefix: string, objectType: T) => {
+export const createAbstractRoom = <T extends ClassType>(prefix: string, objectType: T) => {
   @Resolver({
     isAbstract: true,
   })
@@ -209,7 +210,7 @@ const createAbstractRoom = <T extends ClassType>(prefix: string, objectType: T) 
     @Subscription(() => objectType, {
       name: `${prefix}RoomByNumber`,
       description: '订阅房间变化',
-      topics: [JoinRoomTopic, BeginGameTopic, SelectPosTopic, ShuffleTopic],
+      topics: [JoinRoomTopic, BeginGameTopic, SelectPosTopic, ShuffleTopic, OutTopic],
       filter: ({ args, payload }) => args.roomNumber === payload.roomNumber,
     })
     // eslint-disable-next-line class-methods-use-this

@@ -114,6 +114,15 @@ type Mutation {
     roomNumber: Int!
   ): UnderCoverRoom!
 
+  """选择玩家出局"""
+  undercoverSomeoneOut(
+    """座位号"""
+    index: Int!
+
+    """房间号"""
+    roomNumber: Int!
+  ): UnderCoverRoom!
+
   """开始游戏"""
   werewolfBeginGame(
     """房间号"""
@@ -153,6 +162,9 @@ type Mutation {
 
 """游戏玩家"""
 type Player {
+  """是否出局"""
+  isOut: Boolean
+
   """位置"""
   position: Int!
 

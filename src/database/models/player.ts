@@ -10,6 +10,10 @@ class Player {
   @Field(() => Int, { description: '位置' })
   @prop({ required: true })
   position!: number;
+
+  @Field({ description: '是否出局', defaultValue: false })
+  @prop({ required: false, default: false })
+  isOut?: boolean;
 }
 
 export { Player };

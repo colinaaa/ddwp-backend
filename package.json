@@ -50,7 +50,7 @@
     "ioredis": "^4.19.2",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.2",
-    "mongoose": "^5.10.11",
+    "mongoose": "^5.10.13",
     "morgan": "^1.10.0",
     "rate-limit-redis": "^2.0.0",
     "redlock": "^4.2.0",

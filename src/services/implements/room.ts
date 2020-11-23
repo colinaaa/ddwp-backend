@@ -7,6 +7,7 @@ import { IRoom } from '@models/room';
 import { Player } from '@models/player';
 import { WerewolfRoomModel } from '@models/werewolf/room';
 import { UnderCoverRoomModel } from '@models/undercover/room';
+import { AvalonRoomModel } from '@models/avalon/room';
 
 import InputGameConfig from '@input/gameConfig';
 
@@ -14,7 +15,7 @@ import { IRoomService, RoomServiceName } from '../room';
 
 type ModelT = ReturnModelType<typeof IRoom>;
 
-const Models = [WerewolfRoomModel, UnderCoverRoomModel];
+const Models = [WerewolfRoomModel, UnderCoverRoomModel, AvalonRoomModel];
 
 @Service(RoomServiceName)
 class RoomService implements IRoomService {

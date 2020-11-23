@@ -3,6 +3,45 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+"""阿瓦隆游戏配置"""
+type AvalonConfig implements IGameConfig {
+  """阵容"""
+  lineup: [Role!]
+
+  """总人数"""
+  totalNumber: Int!
+}
+
+"""阿瓦隆房间"""
+type AvalonRoom implements IRoom {
+  """阿瓦隆游戏配置"""
+  gameConfig: AvalonConfig!
+
+  """游戏类型"""
+  gameType: GameType!
+
+  """是否开始"""
+  isBegin: Boolean
+
+  """是否结束"""
+  isEnd: Boolean
+
+  """阵容"""
+  lineup: LineUp @deprecated(reason: "改为多个游戏，使用GameConfig")
+
+  """密码"""
+  password: String!
+
+  """玩家信息"""
+  players: [Player!]!
+
+  """玩家人数"""
+  playersNumber: Int!
+
+  """房间号"""
+  roomNumber: Int!
+}
+
 """游戏类型"""
 enum GameType {
   Avalon
@@ -78,6 +117,42 @@ enum LineUp {
 }
 
 type Mutation {
+  """开始游戏"""
+  avalonBeginGame(
+    """房间号"""
+    roomNumber: Int!
+  ): AvalonRoom!
+
+  """创建房间"""
+  avalonCreateRoom(config: InputGameConfig!): AvalonRoom!
+
+  """开始发牌"""
+  avalonDeal(
+    """房间号"""
+    roomNumber: Int!
+  ): AvalonRoom!
+
+  """结束游戏"""
+  avalonEndGame(
+    """房间号"""
+    roomNumber: Int!
+  ): AvalonRoom!
+
+  """加入房间"""
+  avalonJoinRoom(
+    """房间号"""
+    roomNumber: Int!
+  ): AvalonRoom!
+
+  """选择位置"""
+  avalonSelectPos(
+    """位置"""
+    position: Int!
+
+    """房间号"""
+    roomNumber: Int!
+  ): AvalonRoom!
+
   """开始游戏"""
   undercoverBeginGame(
     """房间号"""
@@ -176,6 +251,10 @@ type Query {
   allUsers: [User!]
 
   """查询房间"""
+  avalonRoomByNumber(number: Int!): AvalonRoom!
+  avalonRooms: [AvalonRoom!]
+
+  """查询房间"""
   undercoverRoomByNumber(number: Int!): UnderCoverRoom!
   undercoverRooms: [UnderCoverRoom!]
   userByPhone(phone: String!): User!
@@ -195,6 +274,12 @@ type Role {
 }
 
 type Subscription {
+  """订阅房间变化"""
+  avalonRoomByNumber(
+    """房间号"""
+    roomNumber: Int!
+  ): AvalonRoom!
+
   """订阅房间变化"""
   undercoverRoomByNumber(
     """房间号"""

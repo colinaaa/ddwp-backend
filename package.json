@@ -78,7 +78,7 @@
     "@types/redlock": "^4.0.1",
     "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
-    "@typescript-eslint/parser": "^4.6.1",
+    "@typescript-eslint/parser": "^4.8.2",
     "eslint": "^7.14.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.15.0",
@@ -90,10 +90,10 @@
     "lint-staged": "^10.5.1",
     "nodemon": "^2.0.6",
     "prettier": "^2.0.5",
-    "supertest": "^6.0.0",
+    "supertest": "^6.0.1",
     "ts-jest": "^26.4.4",
     "ts-node": "^9.0.0",
-    "tsc-alias": "^1.1.1",
+    "tsc-alias": "^1.1.5",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^4.0.5"
   }

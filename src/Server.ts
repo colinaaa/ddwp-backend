@@ -24,6 +24,12 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 if (process.env.NODE_ENV === 'production') {
+  // Trust proxy, see: https://expressjs.com/en/guide/behind-proxies.html
+  // loopback - 127.0.0.1/8, ::1/128
+  // linklocal - 169.254.0.0/16, fe80::/10
+  // uniquelocal - 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, fc00::/7
+  app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']);
+
   app.use(morgan('combined'));
 
   // Security
@@ -32,8 +38,10 @@ if (process.env.NODE_ENV === 'production') {
   // Rate limits
   const limiter = rateLimit({
     store: new RedisStore({
+      prefix: 'limiter:',
       client: redisClient,
     }),
+    windowMs: 30 * 1000, // 0.5 min
     max: 100, // limit each IP to 100 requests per windowMs
   });
 

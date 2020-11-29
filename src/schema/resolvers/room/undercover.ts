@@ -96,9 +96,13 @@ class UnderCover extends UnderCoverBaseResolver {
     const aliveSet = new Set(alive);
 
     if (alive.length === 2 || aliveSet.size === 1) {
-      await this.service.updateRoom(roomNumber, { isEnd: true });
-      await publish({ ...room, isEnd: true });
-      return room;
+      const newRoom = await this.service.updateRoom(roomNumber, { isEnd: true });
+      if (!newRoom) {
+        logger.error('结束失败 %s', roomNumber);
+        throw new Error('结束失败');
+      }
+      await publish(newRoom);
+      return newRoom;
     }
 
     const newRoom = await this.service.updateRoom(roomNumber, { players });

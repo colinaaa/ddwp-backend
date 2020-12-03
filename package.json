@@ -28,7 +28,7 @@
     "test": "jest --forceExit --runInBand"
   },
   "dependencies": {
-    "@typegoose/typegoose": "^7.4.1",
+    "@typegoose/typegoose": "^7.4.4",
     "apollo-datasource-mongodb": "^0.2.8",
     "apollo-server-cache-redis": "^1.2.2",
     "apollo-server-express": "^2.19.0",
